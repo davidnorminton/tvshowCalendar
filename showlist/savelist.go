@@ -10,7 +10,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"tvshows/utils"
+	"tvshowCalendar/utils"
 )
 
 // SaveDir is the directory relative to the users home directory that will store our data files

@@ -18,9 +18,9 @@ import (
 	"strings"
 	"time"
 
-	"tvshows/episodate"
-	"tvshows/showlist"
-	"tvshows/utils"
+	"tvshowCalendar/episodate"
+	"tvshowCalendar/showlist"
+	"tvshowCalendar/utils"
 )
 
 // IcsFile is the file name of our calendar file

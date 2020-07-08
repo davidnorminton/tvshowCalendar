@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 
-	"tvshows/calendar"
-	"tvshows/episodate"
-	"tvshows/showlist"
+	"tvshowCalendar/calendar"
+	"tvshowCalendar/episodate"
+	"tvshowCalendar/showlist"
 )
 
 // cmd line - search show, add to list
