@@ -21,11 +21,18 @@ const (
 )
 
 // SearchTvShow searchs for TV Shows that contain the term
-func SearchTvShow(showName string) {
-	show := strings.ReplaceAll(showName, " ", "+")
-	showInfoUrl := SearchUrl + show
+func SearchTvShow(show string) {
+	outputConsole(GetSearchData(GetSearchUrl(show), 1))
+}
 
-	getSearchData(showInfoUrl, 1, 0)
+// FormatShowName removes whitespace and replaces with a +
+func FormatShowName(show string) string {
+	return strings.ReplaceAll(show, " ", "+")
+}
+
+// GetSearchUrl creates the search url
+func GetSearchUrl(show string) string {
+	return SearchUrl + FormatShowName(show)
 }
 
 // SearchShowArray is the structure of the json show data
@@ -49,8 +56,8 @@ type SearchJson struct {
 	TvShows []SearchShowArray `json:"tv_shows"`
 }
 
-// getSearchData is used a recursive function in order to retrieve every search result page
-func getSearchData(url string, page int, totalPages int) {
+// GetSearchData retrieves the json response from the api
+func GetSearchData(url string, page int) ([]byte, string, int) {
 
 	resp, err := http.Get(url)
 	if err != nil {
@@ -63,15 +70,17 @@ func getSearchData(url string, page int, totalPages int) {
 	if err != nil {
 		panic(err)
 	}
+
+	return html, url, page
+
+}
+
+func outputConsole(html []byte, url string, page int) {
 	// show the HTML code as a string %s
 	search := SearchJson{}
 	json.Unmarshal([]byte(html), &search)
 
-	if totalPages == 0 {
-		totalPages = search.Pages
-	}
-
-	if page <= totalPages {
+	if page <= search.Pages {
 
 		fmt.Println("--------------------------")
 		fmt.Printf("Page %d of results", page)
@@ -87,7 +96,6 @@ func getSearchData(url string, page int, totalPages int) {
 
 		page = page + 1
 		pageUrl := url + "&page=" + strconv.Itoa(page)
-		getSearchData(pageUrl, page, totalPages)
+		outputConsole(GetSearchData(pageUrl, page))
 	}
-
 }

@@ -1,0 +1,21 @@
+{{ template "header"}}
+    <div class="container">
+        <h1 class="page-title">Shows to be added to calendar file</h1>
+        {{ if .ShowList }}
+        <table>
+        {{range .ShowList}}
+            <tr>
+                <td>{{ . }}</td>
+                <td>
+                    <button class="remove-item" data-ref="{{ . }}">
+                      <i class="icon-minus"></i>  REMOVE 
+                    </button>    
+                </td>
+        {{ end }}
+        </table>
+        {{ else }}
+            No shows in list
+        {{ end }}
+    </div>
+
+{{ template "footer" }}

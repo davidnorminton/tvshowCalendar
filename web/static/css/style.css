@@ -1,0 +1,201 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+header {
+    background: #4e4848;
+}
+.header-wrap {
+    display: flex;
+}
+button {
+    cursor: pointer;
+}
+.logo {
+    border-radius: 5px;
+    position: relative;
+    top: 0;
+}
+.logo a {
+    background: #84757a;
+    border: 2px solid #8e8889;
+    border-radius: 5px;
+    position: relative;
+    top: 0;
+    color: #fff;
+}
+.search-form {
+    position: relative;
+    top: 20px;
+}
+.search {
+    margin-left: 10px;
+    padding: 9px 6px;
+    width: 720px;
+    font-size: 17px;
+    letter-spacing: 1px;
+    border: 0;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+input.search:focus {
+    outline-width: 0;
+}
+.page-title {
+    text-align: center;
+    margin: 60px 0;
+    color:#979797;
+}
+.query {
+    text-decoration: underline;
+    color: #695f5f;
+}
+.search_button {
+    background: blue;
+    color: #fff;
+    padding: 8px 8px 9px 8px;
+    border: 0;
+    font-size: 1.2rem;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+    position: absolute;
+    right: 0px;
+    top: -1px;
+}
+.search_button:focus {
+    outline: none;
+}
+.pagination-wrapper {
+    text-align: center;
+    margin: 40px 0;
+}
+.pagination {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.pagination li {
+    display: inline-block;
+    background: blue;
+    cursor: pointer;
+    margin: 2px;
+}
+.pagination li a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 0;
+    display: inline-block;
+    font-weight: bold;
+    width: 45px;
+}
+.page-true {
+    background: black;
+}
+.show-result {
+    margin-bottom: 40px;
+}
+.show-details {
+    line-height: 25px;
+}
+.detail {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.add-show {
+    background: #28a745;
+    border: 0;
+    padding: 5px 10px;
+    margin-top: 10px;
+    color: #fff;
+    font-weight: bold;
+}
+.remove-item {
+    background: red;
+    border: 0;
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: bold;
+}
+.remove-item:hover {
+    background: #ca1111;
+}
+table {
+    width: 100%;
+}
+table td {
+    width: 50%;
+    height: 30px;
+    font-size: 22px;
+}
+.show-name {
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #000;
+    text-decoration: none;
+}
+.show-name:hover {
+    color: rgb(21, 21, 218);
+}
+.status {
+    color: white;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 25px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 10px 0;
+    position: relative;
+    bottom: 3px;
+}
+.status-ended, .status-canceled-ended {
+    background: #dc3545;
+}
+.status-in-development, .status-to-be-determined {
+    background: #00bcd4;
+}
+.status-running, .status-new-series {
+    background: #28a745;
+}
+footer {
+    background: #000;
+    display: flex;
+    margin-top: 40px;
+}
+.about {
+    margin: 40px 0;
+    color: #fff;
+}
+.code-link {
+    color: silver;
+}
+.details-wrapper {
+    margin: 80px 0;
+    overflow: auto;
+}
+.left-details {
+    float: left;
+    width: 50%;
+    line-height: 40px;
+    font-size: 22px;
+}
+.right-details {
+    float: right;
+    width: 50%;
+    text-align: right;
+}
+.right-details img {
+    width: 100%;
+}
+.description {
+    clear: both;
+    font-size: 22px;
+    line-height: 35px;
+    color: #312e2e;
+}

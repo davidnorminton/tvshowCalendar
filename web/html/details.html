@@ -1,0 +1,44 @@
+{{ template "header" }}
+    <div class="container">
+        {{ if .DetailsData }}
+
+        <h1 class="page-title">Show Details for <span class="query">{{ .DetailsData.Name }}</span></h1>
+        <div class="details-wrapper">
+            <div class="left-details">
+                <div><span class="detail">Start Date:</span><span>{{ .DetailsData.StartDate }}</span></div>
+                <div><span class="detail">Country:</span><span>{{ .DetailsData.Country }}</span></div>
+                <div><span class="detail">Status:</span><span>{{ .DetailsData.Status }}</span></div>
+                <div><span class="detail">Nework:</span><span>{{ .DetailsData.Network }}</span></div>
+                <div><span class="detail">Rating:</span><span>{{ .DetailsData.Rating }}</span></div>
+                {{ if .DetailsData.YouTube }}
+                <div>
+                    <a target="_blank" href="https://youtube.com/watch?v={{ .DetailsData.YouTube }}">Trailer</a>
+                </div>    
+                {{ end }}
+                {{ if .IsAdded }}
+                <button class="remove-item" data-ref="{{ .DetailsData.Permalink }}">
+                    REMOVE SHOW 
+                </button> 
+                {{ else }}
+                <button class="add-show" data-ref="{{ .DetailsData.Permalink }}">
+                    ADD SHOW 
+                </button> 
+                {{ end }}
+            </div>
+            <div class="right-details">    
+                {{ if .DetailsData.Image }}
+                    <img src="{{ .DetailsData.Image }}" />
+                {{ end }}    
+            </div>
+        </div>    
+        <div class="description">   
+
+            <div>{{ .DetailsData.Permalink }}</div>
+            <div>{{ .DetailsData.Description | html }}</div>
+
+        </div>   
+        {{ else }}
+        <div>No Results found for {{ .Query }}</div>
+        {{ end }}
+    </div>
+{{ template "footer" }}        

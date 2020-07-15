@@ -1,0 +1,65 @@
+{{ template "header"}}
+    <div class="container">
+
+        <h1 class="page-title">Search Results for <span class="query">{{ .Query }}</span></h1>
+        {{ if .Pages }}
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+            {{ range .Pages }}
+                <li>
+                    <a href="{{ .Url }}" class="page-{{ .Active }}">
+                        {{ .Page }}
+                    </a>
+                </li>
+            {{ end }}
+            </ul>
+        </div>    
+        {{ end }}
+        {{ range .SearchData }}
+        <div class="show-result">
+            <div>
+                <a href="/details?q={{ .Reference }}"  class="show-name">
+                    <span>{{ .Name }}</span>
+                </a>    
+                <span class="status status-{{ .StatusClass }}">{{ .Status }}</span>
+            </div>
+            <div class="show-details">
+                <span class="detail">Ref:</span><span>{{ .Reference }}</span>
+
+                <div>
+                    <span class="detail">Country:</span><span>{{ .Country }}</span>
+                </div>
+                <div>
+                    <span class="detail">Network:</span><span>{{ .Network }}</span>
+                </div>
+                <div>
+                    <span class="detail">Start Date:</span><span>{{ .StartDate }}</span>
+                </div>   
+                {{ if .IsAdded }}
+                <button class="remove-item" data-ref="{{ .Reference }}">
+                    REMOVE SHOW 
+                </button> 
+                {{ else }}
+                <button class="add-show" data-ref="{{ .Reference }}">
+                    ADD SHOW 
+                </button> 
+                {{ end }}                
+            </div>
+        </div>    
+        {{ end }} 
+        {{ if .Pages }}
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+            {{ range .Pages }}
+                <li>
+                    <a href="{{ .Url }}" class="page-{{ .Active }}">
+                        {{ .Page }}
+                    </a>
+                </li>
+            {{ end }}
+            </ul>
+        </div>    
+        {{ end }}
+    </div>    
+{{ template "footer" }}
+

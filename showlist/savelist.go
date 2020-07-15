@@ -10,6 +10,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"tvshowCalendar/utils"
 )
 
@@ -22,6 +23,8 @@ const (
 
 // AddTvShow starts the routine to save a TV Show to the saved list
 func AddTvShow(show string) (string, error) {
+
+	show = strings.ReplaceAll(show, " ", "-")
 
 	err := RunSaveFileChecks()
 	if err != nil {
@@ -83,24 +86,24 @@ func appendShowToFile(show string) error {
 	if err != nil {
 		return err
 	}
-
+	fmt.Println("we are here " + show)
 	home, err := utils.GetHomeDir()
 	if err != nil {
 		return err
 	}
 
-	f, err := os.OpenFile(home+SaveDir+SaveFile, os.O_APPEND|os.O_WRONLY, 0600)
+	f, err := os.OpenFile(home+SaveDir+SaveFile, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return fmt.Errorf("Error: Problem opening save file! %v", err)
 	}
 
 	defer f.Close()
 
-	err = checkIfShowInList(show)
+	err = CheckIfShowInList(show)
 	if err != nil {
 		return err
 	}
-
+	fmt.Println(show)
 	if _, err = f.WriteString(show + "\n"); err != nil {
 		return fmt.Errorf("There was an error writting to file! %v", err)
 	}
@@ -109,15 +112,23 @@ func appendShowToFile(show string) error {
 
 }
 
-// check if the show has already been added to the save list
-func checkIfShowInList(show string) error {
-
+func GetSavelistFileLocation() (string, error) {
 	home, err := utils.GetHomeDir()
 	if err != nil {
-		return fmt.Errorf("Error getting user home directory! %v", err)
+		return "", fmt.Errorf("Error getting user home directory! %v", err)
 	}
 
-	filename := home + SaveDir + SaveFile
+	return home + SaveDir + SaveFile, nil
+}
+
+// CheckIfShowInLIst checks if the show has already been added to the save list
+func CheckIfShowInList(show string) error {
+
+	filename, err := GetSavelistFileLocation()
+	if err != nil {
+		return err
+	}
+
 	file, err := os.Open(filename)
 	if err != nil {
 		return fmt.Errorf("Problem opening %s", filename)
@@ -141,11 +152,57 @@ func checkIfShowInList(show string) error {
 
 }
 
+func RemoveShowFromFile(show string) (string, error) {
+	filename, err := GetSavelistFileLocation()
+	if err != nil {
+		return "", err
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return "", fmt.Errorf("Problem opening %s", filename)
+	}
+
+	scanner := bufio.NewScanner(file)
+
+	newList := []string{}
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line != show {
+			newList = append(newList, line)
+		}
+	}
+
+	defer file.Close()
+	if err := scanner.Err(); err != nil {
+		return "", err
+	}
+	appendListToFile(newList)
+	return "File updated removed " + show, nil
+}
+
+func appendListToFile(list []string) error {
+	home, _ := GetSavelistFileLocation()
+	f, err := os.OpenFile(home, os.O_TRUNC|os.O_WRONLY, 0777)
+	if err != nil {
+		return fmt.Errorf("Error: Problem opening save file! %v", err)
+	}
+
+	defer f.Close()
+
+	for _, val := range list {
+		if _, err = f.WriteString(val + "\n"); err != nil {
+			return fmt.Errorf("There was an error writting to file 2! %v", err)
+		}
+	}
+	return nil
+}
+
 // ListShows Lists all the shows in the save file list to the terminal
 func ListShows() {
 
-	err := RunSaveFileChecks()
-	if err != nil {
+	if err := RunSaveFileChecks(); err != nil {
 		fmt.Println(err)
 	}
 

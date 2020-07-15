@@ -1,0 +1,30 @@
+{{ define "header" }}
+<!doctype html>
+<html>
+    <head>
+        <title>TV Show ics creator</title>
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/fontello.css">
+    </head>
+    <body>
+        <header>
+            <div class="container header-wrap">
+                <h1 class="logo">                
+                    <a href="/"><i class="icon-home"></i></a>
+                </h1>    
+                <form action="/search" method="GET" class="search-form">
+                    <input type="text" name="q" class="search" placeholder="Search for show">
+                    <button 
+                        type="submit"
+                        class="search_button"
+                        id="search"
+                    
+                    > 
+                        <i class="icon-search"></i>
+                    </button>
+                </form>
+            </div>
+        </header>
+{{ end }}        
+        
+        

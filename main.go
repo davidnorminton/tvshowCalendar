@@ -7,6 +7,7 @@ import (
 	"tvshowCalendar/calendar"
 	"tvshowCalendar/episodate"
 	"tvshowCalendar/showlist"
+	"tvshowCalendar/web"
 )
 
 // cmd line - search show, add to list
@@ -19,6 +20,8 @@ func main() {
 	listShowsPtr := flag.Bool("l", false, "List of TV Shows to scan")
 	showDetailsPtr := flag.String("d", "", "TV Show Details")
 	updateCalendarPtr := flag.Bool("u", false, "Update calendar with TV show air dates")
+	webServerPtr := flag.Bool("S", false, "Start web server")
+	removeShowPtr := flag.String("r", "", "Remove show from list")
 
 	flag.Parse()
 
@@ -33,8 +36,12 @@ func main() {
 		getShowDetails(*showDetailsPtr)
 	case *updateCalendarPtr:
 		updateCalendarWithShows()
+	case *webServerPtr:
+		startWebServer()
+	case len(*removeShowPtr) > 0:
+		removeShow(*removeShowPtr)
 	default:
-		fmt.Println("Help instructions here\n")
+		fmt.Println("Help instructions here")
 	}
 
 }
@@ -57,6 +64,14 @@ func addShow(show string) {
 
 }
 
+func removeShow(show string) {
+	result, err := showlist.RemoveShowFromFile(show)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(result)
+}
+
 func listShows() {
 	showlist.ListShows()
 }
@@ -70,4 +85,8 @@ func getShowDetails(show string) {
 
 func updateCalendarWithShows() {
 	calendar.UpdateCalendar()
+}
+
+func startWebServer() {
+	web.StartWebServer()
 }
