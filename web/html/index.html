@@ -5,10 +5,12 @@
         <table>
         {{range .ShowList}}
             <tr>
-                <td>{{ . }}</td>
+                <td>
+                    <a class="details-link" href="/details?q={{ . }}">{{ . }}</a>
+                </td>
                 <td>
                     <button class="remove-item" data-ref="{{ . }}">
-                      <i class="icon-minus"></i>  REMOVE 
+                      REMOVE SHOW
                     </button>    
                 </td>
         {{ end }}

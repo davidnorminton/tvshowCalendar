@@ -30,27 +30,30 @@ const (
 
 // updateCalendar starts the routine to add show air dates to the calendar ics file,
 // the shows that are added are based on the shows that are listed in the save show list file
-func UpdateCalendar() {
+func UpdateCalendar() error {
 	fmt.Println("Updating Calendar")
 	err := showlist.RunSaveFileChecks()
 	if err != nil {
-		fmt.Println(err)
+		return fmt.Errorf("Error in FIle Safety checks")
 	}
-	getShowsInList()
+	if err := getShowsInList(); err != nil {
+		return fmt.Errorf("Error writting to file!")
+	}
+	return nil
 }
 
 // getShowsInList retrieves the save show list, then for each show get the latest episodes
 // REFACTOR
-func getShowsInList() {
+func getShowsInList() error {
 	home, err := utils.GetHomeDir()
 	if err != nil {
-		fmt.Println("Error: Problem opening file!")
+		return fmt.Errorf("Error: Problem opening file!")
 	}
 
 	filename := home + showlist.SaveDir + showlist.SaveFile
 	file, err := os.Open(filename)
 	if err != nil {
-		fmt.Printf("Problem opening %s", filename)
+		return fmt.Errorf("Problem opening %s", filename)
 	}
 
 	defer file.Close()
@@ -60,13 +63,11 @@ func getShowsInList() {
 	for scanner.Scan() {
 		line := scanner.Text()
 		html, err := episodate.GetShowData(episodate.GetApiShowUrl(line))
-
+		if err != nil {
+			return fmt.Errorf("Error getting %s show Data", line)
+		}
 		var data episodate.Show
 		json.Unmarshal([]byte(html), &data)
-
-		if err != nil {
-			fmt.Printf("Error getting %s show Data", line)
-		}
 
 		for i := 0; i < len(data.TvShow.Episodes); i++ {
 
@@ -91,8 +92,9 @@ func getShowsInList() {
 	// write calendarData to file ics
 
 	if err := scanner.Err(); err != nil {
-		fmt.Println(err)
+		return fmt.Errorf("Error writting to file")
 	}
+	return nil
 }
 
 // checkAirDate Checks if the date provided is prior to current date minus 1 month

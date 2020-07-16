@@ -84,7 +84,12 @@ func getShowDetails(show string) {
 }
 
 func updateCalendarWithShows() {
-	calendar.UpdateCalendar()
+	if err := calendar.UpdateCalendar(); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("ICS file has been updated")
+	}
+
 }
 
 func startWebServer() {

@@ -1,7 +1,11 @@
 {{ template "header"}}
     <div class="container">
 
-        <h1 class="page-title">Search Results for <span class="query">{{ .Query }}</span></h1>
+        <h1 class="page-title">
+            <i class="icon-search search-icon"></i>    
+            Search Results for 
+            <span class="query">{{ .Query }}</span>
+        </h1>
         {{ if .Pages }}
         <div class="pagination-wrapper">
             <ul class="pagination">

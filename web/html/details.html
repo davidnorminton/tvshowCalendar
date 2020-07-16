@@ -11,8 +11,9 @@
                 <div><span class="detail">Nework:</span><span>{{ .DetailsData.Network }}</span></div>
                 <div><span class="detail">Rating:</span><span>{{ .DetailsData.Rating }}</span></div>
                 {{ if .DetailsData.YouTube }}
-                <div>
-                    <a target="_blank" href="https://youtube.com/watch?v={{ .DetailsData.YouTube }}">Trailer</a>
+                <div class="trailer-link">
+                    <i class="icon-youtube-play"></i>
+                    <a target="_blank" href="https://youtube.com/watch?v={{ .DetailsData.YouTube }}">Watch Trailer</a>
                 </div>    
                 {{ end }}
                 {{ if .IsAdded }}
@@ -33,7 +34,7 @@
         </div>    
         <div class="description">   
 
-            <div>{{ .DetailsData.Permalink }}</div>
+            <div class="details-permalink">{{ .DetailsData.Permalink }}</div>
             <div>{{ .DetailsData.Description | html }}</div>
 
         </div>   

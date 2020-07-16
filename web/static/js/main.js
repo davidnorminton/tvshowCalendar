@@ -1,14 +1,17 @@
 (function() {
     
-document.addEventListener('click', function (elem) {
-   if(!elem.target.type === 'submit') {
-        return
+document.addEventListener('click', function (event) {
+
+    if(event.target.classList.contains('add-show')) {
+        addShow(event, event.target.dataset.ref)
     }
-    if(elem.target.classList.contains('add-show')) {
-        addShow(elem, elem.target.dataset.ref)
+
+    if(event.target.classList.contains('remove-item')) {
+        removeShow(event, event.target.dataset.ref)
     }
-    if(elem.target.classList.contains('remove-item')) {
-        removeShow(elem, elem.target.dataset.ref)
+
+    if(event.target.id === 'update') {
+      updateIcsFile()
     }
 
 }, false);    
@@ -61,5 +64,18 @@ const removeShow = (elem, show) => {
 };
 
 // update show list
-
+const updateIcsFile = () => {
+    fetch("/updatefile", {mode: "cors"})
+    .then(function(response) {
+        return response.text()
+    }).then(function(){
+        if(text === 'updated') {
+          console.log("File update");
+        } else {
+          console.log("error updating file");
+        }
+    }).catch(function() {
+        console.log("error updating file")
+    });
+};
 })()

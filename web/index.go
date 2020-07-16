@@ -22,6 +22,7 @@ func StartWebServer() {
 	mux.HandleFunc("/details", DetailsHandler)
 	mux.HandleFunc("/addshow", AddShowHandler)
 	mux.HandleFunc("/removeshow", RemoveShowHandler)
+	mux.HandleFunc("/updatefile", UpdateHandler)
 	// Create a file server which serves files out of the "./ui/static" directory.
 	// Note that the path given to the http.Dir function is relative to the project
 	// directory root.
