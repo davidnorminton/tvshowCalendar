@@ -2,8 +2,9 @@
     <div class="container">
         {{ if .DetailsData }}
 
-        <h1 class="page-title">Show Details for <span class="query">{{ .DetailsData.Name }}</span></h1>
         <div class="details-wrapper">
+            <h1 class="page-title-details">{{ .DetailsData.Name }}</h1>
+
             <div class="left-details">
                 <div><span class="detail">Start Date:</span><span>{{ .DetailsData.StartDate }}</span></div>
                 <div><span class="detail">Country:</span><span>{{ .DetailsData.Country }}</span></div>
@@ -34,7 +35,7 @@
         </div>    
         <div class="description">   
 
-            <div class="details-permalink">{{ .DetailsData.Permalink }}</div>
+            <div class="details-permalink">{{ .DetailsData.Permalink }}<small class="note">(reference)</small></div>
             <div>{{ .DetailsData.Description | html }}</div>
 
         </div>   
