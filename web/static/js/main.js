@@ -1,5 +1,8 @@
 (function() {
     
+const msg = document.getElementById('messages');
+
+
 document.addEventListener('click', function (event) {
 
     if(event.target.classList.contains('add-show')) {
@@ -22,16 +25,26 @@ const addBtn = (elem) => {
     elem.target.innerHTML = `ADD SHOW`
 };
 
+const clearMsg = () => {
+    msg.classList.remove('error-msg');
+    msg.classList.remove('good-msg');
+    msg.innerHTML = '';
+};
+
 const addShow = (elem, show) => {
+    clearMsg()
     fetch(`/addshow?add=${show}`, {mode: 'cors'})
     .then(function(response) {
       return response.text();
     })
     .then(function(text) {
       if(text === "error") {
-          console.log("error adding show")
+          msg.innerHTML = `There was an error removing ${show} to your list`
+          msg. classList.add('error-msg');       
       } else {
         removeBtn(elem)
+        msg.innerHTML = `${show} was removed to your Calendar file`;
+        msg.classList.add('good-msg');        
       } 
     })
     .catch(function(error) {
@@ -47,15 +60,19 @@ const removeBtn = (elem) => {
 };
 
 const removeShow = (elem, show) => {
+    clearMsg();
     fetch(`/removeshow?remove=${show}`, {mode: 'cors'})
     .then(function(response) {
       return response.text();
     })
     .then(function(text) {
       if(text === "error") {
-          console.log("error removing show")
+          msg.innerHTML = `There was an error adding ${show} to your list`
+          msg. classList.add('error-msg');  
       } else {
-        addBtn(elem)
+          addBtn(elem)
+          msg.innerHTML = `${show} was added to your Calendar file`;
+          msg.classList.add('good-msg');
       } 
     })
     .catch(function(error) {
@@ -63,19 +80,25 @@ const removeShow = (elem, show) => {
     });
 };
 
+
 // update show list
 const updateIcsFile = () => {
+    clearMsg()
     fetch("/updatefile", {mode: "cors"})
     .then(function(response) {
         return response.text()
-    }).then(function(){
+    }).then(function(text){
+        console.log(text)
         if(text === 'updated') {
-          console.log("File update");
+            msg.innerHTML = "Your Calendar file has been updated";
+            msg.classList.add('good-msg');
         } else {
-          console.log("error updating file");
+            msg.innerHTML = "Failed to update your calendar file"
+            msg. classList.add('error-msg')
         }
     }).catch(function() {
         console.log("error updating file")
     });
 };
 })()
+

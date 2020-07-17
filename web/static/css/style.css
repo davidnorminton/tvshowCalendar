@@ -260,3 +260,13 @@ footer {
 .trailer-link a {
     color: #fff;
 }
+.good-msg {
+    text-align: center;
+    background: #218838;
+    font-weight: bold;
+}
+.error-msg {
+    text-align: center;
+    font-weight: bold;
+    background: #dc3545;
+}
