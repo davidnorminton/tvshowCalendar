@@ -72,7 +72,7 @@ func getShowsInList() error {
 		for i := 0; i < len(data.TvShow.Episodes); i++ {
 
 			// check if Air date id prior to current date
-			if checkAirDate(data.TvShow.Episodes[i].AirDate) != nil {
+			if CheckAirDate(data.TvShow.Episodes[i].AirDate) != nil {
 				continue
 			}
 
@@ -97,9 +97,9 @@ func getShowsInList() error {
 	return nil
 }
 
-// checkAirDate Checks if the date provided is prior to current date minus 1 month
+// CheckAirDate Checks if the date provided is prior to current date minus 1 month
 // this prevents unnecessary episodes from the past creating a bigger file than we need
-func checkAirDate(date string) error {
+func CheckAirDate(date string) error {
 	splitDate := strings.Split(date, " ")
 	layout := "2006-01-02"
 	t, err := time.Parse(layout, splitDate[0])

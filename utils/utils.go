@@ -25,7 +25,7 @@ func GetHomeDir() (string, error) {
 // FmtDate formats a date string in the format 2020-10-06 to October 6, 2020
 func FmtDate(date string) string {
 	layoutISO := "2006-01-02"
-	layout := "January 2, 2006"
+	layout := "Jan 2, 2006"
 	split := strings.Split(date, " ")
 
 	t, _ := time.Parse(layoutISO, split[0])

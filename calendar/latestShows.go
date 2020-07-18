@@ -12,20 +12,25 @@ type episode struct {
 	Date    string
 }
 
-func GetLatestEpisodes() {
+func GetLatestEpisodes() ([]map[string]string, error) {
 	cal, err := GetIcsFileLocation()
 	if err != nil {
-		fmt.Println("Error getting ICS file!")
+		return nil, fmt.Errorf("Error getting ICS file!")
 	}
 
 	//createSortedList()
-	sliceEpisodes(cal)
+	list, err := sliceEpisodes(cal)
+	if err != nil {
+		return nil, err
+	}
+
+	return list, nil
 }
 
-func sliceEpisodes(cal string) {
+func sliceEpisodes(cal string) ([]map[string]string, error) {
 	file, err := os.Open(cal)
 	if err != nil {
-		fmt.Println("Error opening ics file")
+		return nil, fmt.Errorf("Error opening ics file")
 	}
 
 	defer file.Close()
@@ -36,7 +41,6 @@ func sliceEpisodes(cal string) {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		fmt.Println(list)
 		line := scanner.Text()
 		split := splitLine(line)
 		switch {
@@ -49,15 +53,12 @@ func sliceEpisodes(cal string) {
 		case strings.Contains(line, "END:VEVENT"):
 			list = append(list, temp)
 		}
-
 	}
 
 	if err := scanner.Err(); err != nil {
-		fmt.Println(err)
+		return nil, fmt.Errorf("Error scanning file!")
 	}
-
-	sort(list)
-
+	return list, nil
 }
 
 func splitLine(line string) string {
@@ -66,8 +67,4 @@ func splitLine(line string) string {
 		return split[1]
 	}
 	return ""
-}
-
-func sort(list []map[string]string) {
-	fmt.Println(list)
 }

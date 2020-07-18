@@ -1,3 +1,4 @@
+// The search_handler component handles the data for the /search page
 package web
 
 import (
@@ -10,6 +11,7 @@ import (
 	"tvshowCalendar/showlist"
 )
 
+// SearchData is the data that will be displayed per result
 type SearchData struct {
 	Name        string
 	Reference   string
@@ -21,22 +23,26 @@ type SearchData struct {
 	IsAdded     bool
 }
 
+// SearchView is the total data that will be used on the search page
 type SearchView struct {
 	SearchData []SearchData
 	Query      string
 	Pages      []Pagination
 }
 
+// Pagination is the data used for the pagination
 type Pagination struct {
 	Url    string
 	Page   int
 	Active bool
 }
 
+// getStatusClass formats the status string
 func getStatusClass(status string) string {
 	return strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(status, " ", "-"), "/", "-"))
 }
 
+// isActive checks if the current page is equal to the pagination number
 func isActive(i int, page int) bool {
 	return i == page
 }

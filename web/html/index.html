@@ -1,22 +1,40 @@
 {{ template "header"}}
     <div class="container">
-        <h1 class="page-title">Shows to be added to calendar file</h1>
+        <h1 class="page-title">Home</h1>
         {{ if .ShowList }}
-        <table>
-        {{range .ShowList}}
-            <tr>
-                <td>
-                    <a class="details-link" href="/details?q={{ . }}">{{ . }}</a>
-                </td>
-                <td>
-                    <button class="remove-item" data-ref="{{ . }}">
-                      REMOVE SHOW
-                    </button>    
-                </td>
+        <div class="wrap">
+            <h2>Shows to be added to calendar file</h2>
+            <table>
+            {{range .ShowList}}
+                <tr>
+                    <td>
+                        <a class="details-link" href="/details?q={{ . }}">{{ . }}</a>
+                    </td>
+                    <td>
+                        <button class="remove-item" data-ref="{{ . }}">
+                          REMOVE SHOW
+                        </button>    
+                    </td>
+            {{ end }}
+            </table>
+            {{ else }}
+                No shows in list
+            {{ end }}
+        </div>    
+        {{ if .Latest }}
+        <div class="wrap">
+            <h2>Upcoming & recent releases</h2>
+        {{ $show := "" }}    
+        {{ range .Latest }}
+            {{ if (ne .Name $show) }}
+                {{ $show = .Name }}
+            <h3>{{ .Name }}</h3>
+            {{ end }}    
+            <ul>
+                <li><strong>{{ .Date }} :</strong><span> {{ .Summary }} released</span></li>
+            </ul>
         {{ end }}
-        </table>
-        {{ else }}
-            No shows in list
+        </div>
         {{ end }}
     </div>
 

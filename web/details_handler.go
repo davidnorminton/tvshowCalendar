@@ -1,3 +1,4 @@
+// This component handles the data that is then rendered to the /details page
 package web
 
 import (
@@ -14,6 +15,7 @@ type Show struct {
 	TvShow ShowDetails `json:"TvShow"`
 }
 
+// ShowDetails is the structure of the show json response data from the api
 type ShowDetails struct {
 	Name        string         `json:"name"`
 	Permalink   string         `json:"permalink"`
@@ -28,6 +30,7 @@ type ShowDetails struct {
 	Episodes    []episodesList `json:"episodes"`
 }
 
+// DetailsView is the structure of the data used on the details page
 type DetailsView struct {
 	DetailsData ShowDetails
 	Query       string
@@ -43,6 +46,7 @@ type episodesList struct {
 	AirDate string `json:"air_date"`
 }
 
+// DetailsHandler handles the information displayed on the /details page
 func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	query := r.URL.Query().Get("q")
@@ -52,14 +56,13 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	url := episodate.GetApiShowUrl(query)
-	htmlData, err := episodate.GetShowData(url)
-
+	jsonFromApi, err := episodate.GetShowData(url)
 	if err != nil {
 		fmt.Println("show not found")
 	}
 
 	var data Show
-	json.Unmarshal([]byte(htmlData), &data)
+	json.Unmarshal([]byte(jsonFromApi), &data)
 	isAdded := false
 	if err := showlist.CheckIfShowInList(data.TvShow.Permalink); err != nil {
 		isAdded = true
@@ -91,6 +94,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// fmtEpisodeList changes some of the datas format before rendering
 func fmtEpisodeList(episodes []episodesList) []episodesList {
 	newList := []episodesList{}
 	for _, val := range episodes {

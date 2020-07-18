@@ -95,5 +95,9 @@ func startWebServer() {
 }
 
 func latestEpisodes() {
-	calendar.GetLatestEpisodes()
+	latest, err := calendar.GetLatestEpisodes()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(latest)
 }

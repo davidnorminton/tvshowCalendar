@@ -180,8 +180,6 @@ input.search:focus {
 }
 table {
     width: 100%;
-    background: white;
-    padding: 20px;
 }
 table .remove-item {
     float: right;
@@ -315,4 +313,13 @@ footer {
     text-align: center;
     padding: 20px;
     margin-bottom: 15px;
+}
+.wrap {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 15px;
+    color:#31323a;
+}
+.wrap ul {
+    list-style: none;
 }
