@@ -6,6 +6,7 @@
             <h1 class="page-title-details">{{ .DetailsData.Name }}</h1>
 
             <div class="left-details">
+                <div><span class="detail">Reference:</span><span>{{ .DetailsData.Permalink }}</span></div>
                 <div><span class="detail">Start Date:</span><span>{{ .DetailsData.StartDate }}</span></div>
                 <div><span class="detail">Country:</span><span>{{ .DetailsData.Country }}</span></div>
                 <div><span class="detail">Status:</span><span>{{ .DetailsData.Status }}</span></div>
@@ -35,10 +36,27 @@
         </div>    
         <div class="description">   
 
-            <div class="details-permalink">{{ .DetailsData.Permalink }}<small class="note">(reference)</small></div>
-            <div>{{ .DetailsData.Description | html }}</div>
+            <h2>Description</h2>
+            <div>{{ .Desc }}</div>
 
         </div>   
+        <div class="episodes">
+            <h2>Episodes</h2>
+            <ul>
+            {{ $number := 0 }}    
+            {{ range .DetailsData.Episodes }}
+                {{ if (ne .Season $number) }}
+                    {{ $number = .Season }}
+                    <h3>Season {{ $number }}</h3>
+                {{ end }}
+                <li>
+                    <span>E{{ .Episode }} -</span>
+                    <strong>{{ .Name }}:</strong>
+                    {{ .AirDate }}
+                </li>    
+            {{ end }}
+            </ul>
+        </div>    
         {{ else }}
         <div>No Results found for {{ .Query }}</div>
         {{ end }}

@@ -43,7 +43,7 @@ const addShow = (elem, show) => {
           msg. classList.add('error-msg');       
       } else {
         removeBtn(elem)
-        msg.innerHTML = `${show} was removed to your Calendar file`;
+        msg.innerHTML = `${show} was added to your Calendar file`;
         msg.classList.add('good-msg');        
       } 
     })
@@ -71,7 +71,7 @@ const removeShow = (elem, show) => {
           msg. classList.add('error-msg');  
       } else {
           addBtn(elem)
-          msg.innerHTML = `${show} was added to your Calendar file`;
+          msg.innerHTML = `${show} was removed to your Calendar file`;
           msg.classList.add('good-msg');
       } 
     })

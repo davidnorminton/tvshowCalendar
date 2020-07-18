@@ -14,22 +14,24 @@ type Show struct {
 }
 
 type ShowDetails struct {
-	Name        string `json:"name"`
-	Permalink   string `json:"permalink"`
-	Description string `json:"description"`
-	StartDate   string `json:"start_date"`
-	Country     string `json:"country"`
-	Status      string `json:"status"`
-	Network     string `json:"network"`
-	Rating      int    `json:"rating"`
-	YouTube     string `json:"youtube_link"`
-	Image       string `json:"image_path"`
+	Name        string                   `json:"name"`
+	Permalink   string                   `json:"permalink"`
+	Description string                   `json:"description"`
+	StartDate   string                   `json:"start_date"`
+	Country     string                   `json:"country"`
+	Status      string                   `json:"status"`
+	Network     string                   `json:"network"`
+	Rating      int                      `json:"rating"`
+	YouTube     string                   `json:"youtube_link"`
+	Image       string                   `json:"image_path"`
+	Episodes    []episodate.EpisodesList `json:"episodes"`
 }
 
 type DetailsView struct {
 	DetailsData ShowDetails
 	Query       string
 	IsAdded     bool
+	Desc        template.HTML
 }
 
 func DetailsHandler(w http.ResponseWriter, r *http.Request) {
@@ -53,6 +55,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	if err := showlist.CheckIfShowInList(data.TvShow.Permalink); err != nil {
 		isAdded = true
 	}
+	Desc := template.HTML(data.TvShow.Description)
 	showData := ShowDetails{
 		data.TvShow.Name,
 		data.TvShow.Permalink,
@@ -64,12 +67,14 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		data.TvShow.Rating,
 		data.TvShow.YouTube,
 		data.TvShow.Image,
+		data.TvShow.Episodes,
 	}
 
 	detailsData := DetailsView{
 		DetailsData: showData,
 		Query:       query,
 		IsAdded:     isAdded,
+		Desc:        Desc,
 	}
 	err = t.Execute(w, detailsData)
 	if err != nil {

@@ -22,6 +22,7 @@ func main() {
 	updateCalendarPtr := flag.Bool("u", false, "Update calendar with TV show air dates")
 	webServerPtr := flag.Bool("S", false, "Start web server")
 	removeShowPtr := flag.String("r", "", "Remove show from list")
+	lastestEpisodesPtr := flag.Bool("e", false, "Shows latest episode releases")
 
 	flag.Parse()
 
@@ -40,6 +41,8 @@ func main() {
 		startWebServer()
 	case len(*removeShowPtr) > 0:
 		removeShow(*removeShowPtr)
+	case *lastestEpisodesPtr:
+		latestEpisodes()
 	default:
 		fmt.Println("Help instructions here")
 	}
@@ -47,21 +50,17 @@ func main() {
 }
 
 func searchForShow(show string) {
-
 	fmt.Printf("Searching for %s\n", show)
 	episodate.SearchTvShow(show)
-
 }
 
 func addShow(show string) {
-
 	result, err := showlist.AddTvShow(show)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	fmt.Println(result)
-
 }
 
 func removeShow(show string) {
@@ -89,9 +88,12 @@ func updateCalendarWithShows() {
 	} else {
 		fmt.Println("ICS file has been updated")
 	}
-
 }
 
 func startWebServer() {
 	web.StartWebServer()
+}
+
+func latestEpisodes() {
+	calendar.GetLatestEpisodes()
 }

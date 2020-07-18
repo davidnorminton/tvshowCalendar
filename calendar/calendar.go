@@ -87,7 +87,7 @@ func getShowsInList() error {
 
 		}
 	}
-	addEventToCalendar(home, calendarData)
+	addEventToCalendar(calendarData)
 
 	// write calendarData to file ics
 
@@ -151,9 +151,21 @@ func eventSummary(name string, season string, episode string) string {
 	return fmt.Sprintf("%s, season %s episode %s released", name, season, episode)
 }
 
+// GetIcsFileLocation retrieves the ics file location
+func GetIcsFileLocation() (string, error) {
+	home, err := utils.GetHomeDir()
+	if err != nil {
+		return "", fmt.Errorf("Problem getting home directory")
+	}
+	return home + showlist.SaveDir + IcsFile, nil
+}
+
 // addEventToCalendar is the main loop that write sthe events to the ics file
-func addEventToCalendar(home string, events [][7]string) {
-	icsfile := home + showlist.SaveDir + IcsFile
+func addEventToCalendar(events [][7]string) {
+	icsfile, err := GetIcsFileLocation()
+	if err != nil {
+		fmt.Println("Error getting calendar file location")
+	}
 	file, err := os.OpenFile(icsfile, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("failed creating file: %s", err)
