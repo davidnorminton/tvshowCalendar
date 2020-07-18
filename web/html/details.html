@@ -12,12 +12,6 @@
                 <div><span class="detail">Status:</span><span>{{ .DetailsData.Status }}</span></div>
                 <div><span class="detail">Nework:</span><span>{{ .DetailsData.Network }}</span></div>
                 <div><span class="detail">Rating:</span><span>{{ .DetailsData.Rating }}</span></div>
-                {{ if .DetailsData.YouTube }}
-                <div class="trailer-link">
-                    <i class="icon-youtube-play"></i>
-                    <a target="_blank" href="https://youtube.com/watch?v={{ .DetailsData.YouTube }}">Watch Trailer</a>
-                </div>    
-                {{ end }}
                 {{ if .IsAdded }}
                 <button class="remove-item" data-ref="{{ .DetailsData.Permalink }}">
                     REMOVE SHOW 
@@ -33,7 +27,20 @@
                     <img src="{{ .DetailsData.Image }}" />
                 {{ end }}    
             </div>
+        </div>
+        {{ if .DetailsData.YouTube }}
+
+        <div class="trailer">
+            <iframe 
+                width="640" 
+                height="385" 
+                src="https://www.youtube.com/embed/{{ .DetailsData.YouTube }}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
         </div>    
+        {{ end }}
         <div class="description">   
 
             <h2>Description</h2>

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"tvshowCalendar/episodate"
 	"tvshowCalendar/showlist"
+	"tvshowCalendar/utils"
 )
 
 type Show struct {
@@ -14,17 +15,17 @@ type Show struct {
 }
 
 type ShowDetails struct {
-	Name        string                   `json:"name"`
-	Permalink   string                   `json:"permalink"`
-	Description string                   `json:"description"`
-	StartDate   string                   `json:"start_date"`
-	Country     string                   `json:"country"`
-	Status      string                   `json:"status"`
-	Network     string                   `json:"network"`
-	Rating      int                      `json:"rating"`
-	YouTube     string                   `json:"youtube_link"`
-	Image       string                   `json:"image_path"`
-	Episodes    []episodate.EpisodesList `json:"episodes"`
+	Name        string         `json:"name"`
+	Permalink   string         `json:"permalink"`
+	Description string         `json:"description"`
+	StartDate   string         `json:"start_date"`
+	Country     string         `json:"country"`
+	Status      string         `json:"status"`
+	Network     string         `json:"network"`
+	Rating      int            `json:"rating"`
+	YouTube     string         `json:"youtube_link"`
+	Image       string         `json:"image_path"`
+	Episodes    []episodesList `json:"episodes"`
 }
 
 type DetailsView struct {
@@ -32,6 +33,14 @@ type DetailsView struct {
 	Query       string
 	IsAdded     bool
 	Desc        template.HTML
+}
+
+// episodesList is the structure of the data needed for the calendar
+type episodesList struct {
+	Season  int    `json:"season"`
+	Episode int    `json:"episode"`
+	Name    string `json:"name"`
+	AirDate string `json:"air_date"`
 }
 
 func DetailsHandler(w http.ResponseWriter, r *http.Request) {
@@ -67,7 +76,7 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 		data.TvShow.Rating,
 		data.TvShow.YouTube,
 		data.TvShow.Image,
-		data.TvShow.Episodes,
+		fmtEpisodeList(data.TvShow.Episodes),
 	}
 
 	detailsData := DetailsView{
@@ -80,4 +89,14 @@ func DetailsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func fmtEpisodeList(episodes []episodesList) []episodesList {
+	newList := []episodesList{}
+	for _, val := range episodes {
+		temp := val
+		temp.AirDate = utils.FmtDate(val.AirDate)
+		newList = append(newList, temp)
+	}
+	return newList
 }

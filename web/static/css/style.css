@@ -310,3 +310,9 @@ footer {
 .episodes ul li {
     margin-bottom: 10px;
 }
+.trailer {
+    background: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 15px;
+}
