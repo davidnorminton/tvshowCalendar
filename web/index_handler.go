@@ -7,9 +7,10 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"tvshowCalendar/calendar"
-	"tvshowCalendar/showlist"
-	"tvshowCalendar/utils"
+
+	"github.com/davidnorminton/tvshowCalendar/calendar"
+	"github.com/davidnorminton/tvshowCalendar/showlist"
+	"github.com/davidnorminton/tvshowCalendar/utils"
 )
 
 // IndexData is the structure of the data to be used on the index

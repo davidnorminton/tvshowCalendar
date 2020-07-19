@@ -11,7 +11,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"tvshowCalendar/utils"
+
+	"github.com/davidnorminton/tvshowCalendar/utils"
 )
 
 // SaveDir is the directory relative to the users home directory that will store our data files

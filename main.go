@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	"tvshowCalendar/calendar"
-	"tvshowCalendar/episodate"
-	"tvshowCalendar/showlist"
-	"tvshowCalendar/web"
+	"github.com/davidnorminton/tvshowCalendar/calendar"
+	"github.com/davidnorminton/tvshowCalendar/episodate"
+	"github.com/davidnorminton/tvshowCalendar/showlist"
+	"github.com/davidnorminton/tvshowCalendar/web"
 )
 
 // cmd line - search show, add to list

@@ -3,7 +3,8 @@ package web
 import (
 	"fmt"
 	"net/http"
-	"tvshowCalendar/showlist"
+
+	"github.com/davidnorminton/tvshowCalendar/showlist"
 )
 
 func AddShowHandler(w http.ResponseWriter, r *http.Request) {

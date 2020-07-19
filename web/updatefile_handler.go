@@ -3,7 +3,8 @@ package web
 import (
 	"fmt"
 	"net/http"
-	"tvshowCalendar/calendar"
+
+	"github.com/davidnorminton/tvshowCalendar/calendar"
 )
 
 func UpdateHandler(w http.ResponseWriter, r *http.Request) {

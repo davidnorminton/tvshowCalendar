@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"tvshowCalendar/episodate"
-	"tvshowCalendar/showlist"
-	"tvshowCalendar/utils"
+
+	"github.com/davidnorminton/tvshowCalendar/episodate"
+	"github.com/davidnorminton/tvshowCalendar/showlist"
+	"github.com/davidnorminton/tvshowCalendar/utils"
 )
 
 type Show struct {

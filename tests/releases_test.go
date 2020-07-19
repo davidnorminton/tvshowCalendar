@@ -2,7 +2,8 @@ package episodate
 
 import (
 	"testing"
-	"tvshows/episodate"
+
+	"github.com/davidnorminton/tvshows/episodate"
 )
 
 func TestGetApiShowUrl(t *testing.T) {

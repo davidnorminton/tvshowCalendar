@@ -7,8 +7,9 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"tvshowCalendar/episodate"
-	"tvshowCalendar/showlist"
+
+	"github.com/davidnorminton/tvshowCalendar/episodate"
+	"github.com/davidnorminton/tvshowCalendar/showlist"
 )
 
 // SearchData is the data that will be displayed per result
