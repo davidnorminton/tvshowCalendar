@@ -12,6 +12,7 @@ import (
 	"tvshowCalendar/utils"
 )
 
+// IndexData is the structure of the data to be used on the index
 type IndexData struct {
 	ShowList []string
 	Latest   []map[string]string
@@ -62,6 +63,8 @@ func readLines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
+// formatLatestList takes the current episodes list from the ics file and transforms
+// it into a list suitable for the web interface
 func formatLatestList(list []map[string]string) []map[string]string {
 	newList := []map[string]string{}
 	for _, val := range list {
@@ -79,11 +82,18 @@ func formatLatestList(list []map[string]string) []map[string]string {
 	return newList
 }
 
+// getEpisode takes the summary from the ics event which is a string in the form
+// show name, s1 e3 the show name and episode number are separated by a comma
 func getEpisode(episode string) (string, string) {
 	split := strings.Split(episode, ",")
-	return split[0], strings.ReplaceAll(split[1], "released", "")
+	if len(split) > 1 {
+		return split[0], split[1]
+	}
+	return "", episode
 }
 
+// createDateStr takes a date string in the format YMD ie 20201002
+// and separates the digits wit a minus such as 2020-10-02
 func createDateStr(date string) string {
 	return date[:4] + "-" + date[4:6] + "-" + date[6:8]
 }

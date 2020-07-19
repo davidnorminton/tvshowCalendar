@@ -71,13 +71,10 @@ func removeShow(show string) {
 	fmt.Println(result)
 }
 
-func listShows() {
-	showlist.ListShows()
-}
+func listShows() { showlist.ListShows() }
 
 func getShowDetails(show string) {
-	err := episodate.ShowDetails(show)
-	if err != nil {
+	if err := episodate.ShowDetails(show); err != nil {
 		fmt.Println(err)
 	}
 }
@@ -90,9 +87,7 @@ func updateCalendarWithShows() {
 	}
 }
 
-func startWebServer() {
-	web.StartWebServer()
-}
+func startWebServer() { web.StartWebServer() }
 
 func latestEpisodes() {
 	latest, err := calendar.GetLatestEpisodes()

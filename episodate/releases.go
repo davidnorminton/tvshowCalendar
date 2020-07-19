@@ -16,9 +16,7 @@ import (
 )
 
 // ApiShowUrl is the link to the show-details page of episodate minus the name of the show
-const (
-	ApiShowUrl = "https://www.episodate.com/api/show-details?q="
-)
+const ApiShowUrl = "https://www.episodate.com/api/show-details?q="
 
 // ShowDetails starts the routine to extract the data of the TV Show
 func ShowDetails(show string) error {
@@ -96,7 +94,7 @@ func outputShowData(html []byte) {
 	fmt.Println("------------------------------------------------")
 
 	for i := 0; i < len(data.TvShow.Episodes); i++ {
-		fmt.Printf("Season %d Episode %d\n", data.TvShow.Episodes[i].Season, data.TvShow.Episodes[i].Episode)
+		fmt.Printf("S%d E%d\n", data.TvShow.Episodes[i].Season, data.TvShow.Episodes[i].Episode)
 		fmt.Printf("%s \n", data.TvShow.Episodes[i].Name)
 		fmt.Printf("Air Date %s\n", data.TvShow.Episodes[i].AirDate)
 		fmt.Println("------------------------------------------------")

@@ -36,7 +36,7 @@ func StartWebServer() {
 	log.Fatal(err)
 }
 
-//getPort finds the next open port after 8080 to run the web interface
+// getPort finds the next open port after 8080 to run the web interface
 func getPort() string {
 	port := 8080
 	for {
@@ -53,7 +53,7 @@ func getPort() string {
 
 }
 
-// open opens the specified URL in the default browser of the user.
+// openBrowser opens the specified URL in the default browser of the user.
 func openBrowser(url string) error {
 	var cmd string
 	var args []string

@@ -130,9 +130,7 @@ func formatEvent(show map[string]interface{}) (eventData [7]string) {
 }
 
 // generateUID Generates a random UID
-func generateUID() string {
-	return strconv.Itoa(rand.Int())
-}
+func generateUID() string { return strconv.Itoa(rand.Int()) }
 
 // eventDate formats the date into the form of Ymd with no characters
 func eventDate(date string) string {
@@ -148,7 +146,7 @@ func eventDateStampFormat(date string) string {
 
 // eventSummary formats the summary to include shows season, episode and name
 func eventSummary(name string, season string, episode string) string {
-	return fmt.Sprintf("%s, season %s episode %s released", name, season, episode)
+	return fmt.Sprintf("%s, S%s E%s", name, season, episode)
 }
 
 // GetIcsFileLocation retrieves the ics file location
