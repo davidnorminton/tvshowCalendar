@@ -12,7 +12,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -62,7 +61,7 @@ func getShowsInList() error {
 	}
 
 	defer file.Close()
-	var calendarData = [][7]string{}
+	var calendarData = []string{}
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -115,52 +114,6 @@ func CheckAirDate(date string) error {
 	return nil
 }
 
-type EventData struct {
-	Name, Date, Season, Episode string
-}
-
-// generateUID Generates a random UID
-func (e EventData) generateUID() string { return strconv.Itoa(rand.Int()) }
-
-// eventDate formats the date into the form of Ymd with no characters
-func (e EventData) eventDate() string {
-	startDate := strings.Split(e.Date, " ")
-	return strings.Replace(startDate[0], "-", "", 2)
-}
-
-// eventDateStempFormat formats the date from the REST api to one which is suitable for the ics file
-func (e EventData) eventDateStampFormat() string {
-	replace := strings.NewReplacer(" ", "T", "-", "", ":", "")
-	return replace.Replace(e.Date)
-}
-
-// eventSummary formats the summary to include shows season, episode and name
-func (e EventData) eventSummary() string {
-	return fmt.Sprintf("%s, S%s E%s", e.Name, e.Season, e.Episode)
-}
-
-// formatEvent formats the data into a readable ics event format
-func formatEvent(show IcsEpisode) (eventData [7]string) {
-	ev := EventData{
-		show.Name,
-		show.Date,
-		show.Season,
-		show.Episode,
-	}
-
-	eventData = [7]string{}
-
-	//summary := eventSummary(name, season, episode)
-	eventData[0] = "BEGIN:VEVENT"
-	eventData[1] = "UID:" + ev.generateUID()
-	eventData[2] = "DTSTAMP;VALUE=DATE:" + ev.eventDateStampFormat()
-	eventData[3] = "DTSTART;VALUE=DATE:" + ev.eventDate()
-	eventData[4] = "DTEND;VALUE=DATE:" + ev.eventDate()
-	eventData[5] = "SUMMARY:" + ev.eventSummary()
-	eventData[6] = "END:VEVENT"
-	return
-}
-
 // GetIcsFileLocation retrieves the ics file location
 func GetIcsFileLocation() (string, error) {
 	home, err := utils.GetHomeDir()
@@ -171,7 +124,7 @@ func GetIcsFileLocation() (string, error) {
 }
 
 // addEventToCalendar is the main loop that write sthe events to the ics file
-func addEventToCalendar(events [][7]string) {
+func addEventToCalendar(events []string) {
 	icsfile, err := GetIcsFileLocation()
 	if err != nil {
 		fmt.Println("Error getting calendar file location")
@@ -183,10 +136,8 @@ func addEventToCalendar(events [][7]string) {
 
 	datawriter := bufio.NewWriter(file)
 	_, _ = datawriter.WriteString(startOfIcsFile())
-	for i := 0; i < len(events); i++ {
-		for j := 0; j < len(events[i]); j++ {
-			_, _ = datawriter.WriteString(events[i][j] + "\n")
-		}
+	for _, val := range events {
+		_, _ = datawriter.WriteString(val)
 	}
 	_, _ = datawriter.WriteString("END:VCALENDAR\n")
 	datawriter.Flush()
