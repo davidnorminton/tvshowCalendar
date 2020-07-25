@@ -291,6 +291,8 @@ footer {
 }
 .spinner {
     display: inline-block;
+    color: #000;
+    font-size: 20px;
     animation:spin 1.3s linear infinite;
 
 }

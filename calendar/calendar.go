@@ -115,40 +115,50 @@ func CheckAirDate(date string) error {
 	return nil
 }
 
-// formatEvent formats the data into a readable ics event format
-func formatEvent(show IcsEpisode) (eventData [7]string) {
-	name := show.Name
-	season := show.Season
-	episode := show.Episode
-	summary := eventSummary(name, season, episode)
-	eventData[0] = "BEGIN:VEVENT"
-	eventData[1] = "UID:" + generateUID()
-	eventData[2] = "DTSTAMP;VALUE=DATE:" + eventDateStampFormat(show.Date)
-	eventData[3] = "DTSTART;VALUE=DATE:" + eventDate(show.Date)
-	eventData[4] = "DTEND;VALUE=DATE:" + eventDate(show.Date)
-	eventData[5] = "SUMMARY:" + summary
-	eventData[6] = "END:VEVENT"
-	return
+type EventData struct {
+	Name, Date, Season, Episode string
 }
 
 // generateUID Generates a random UID
-func generateUID() string { return strconv.Itoa(rand.Int()) }
+func (e EventData) generateUID() string { return strconv.Itoa(rand.Int()) }
 
 // eventDate formats the date into the form of Ymd with no characters
-func eventDate(date string) string {
-	startDate := strings.Split(date, " ")
+func (e EventData) eventDate() string {
+	startDate := strings.Split(e.Date, " ")
 	return strings.Replace(startDate[0], "-", "", 2)
 }
 
 // eventDateStempFormat formats the date from the REST api to one which is suitable for the ics file
-func eventDateStampFormat(date string) string {
+func (e EventData) eventDateStampFormat() string {
 	replace := strings.NewReplacer(" ", "T", "-", "", ":", "")
-	return replace.Replace(date)
+	return replace.Replace(e.Date)
 }
 
 // eventSummary formats the summary to include shows season, episode and name
-func eventSummary(name string, season string, episode string) string {
-	return fmt.Sprintf("%s, S%s E%s", name, season, episode)
+func (e EventData) eventSummary() string {
+	return fmt.Sprintf("%s, S%s E%s", e.Name, e.Season, e.Episode)
+}
+
+// formatEvent formats the data into a readable ics event format
+func formatEvent(show IcsEpisode) (eventData [7]string) {
+	ev := EventData{
+		show.Name,
+		show.Date,
+		show.Season,
+		show.Episode,
+	}
+
+	eventData = [7]string{}
+
+	//summary := eventSummary(name, season, episode)
+	eventData[0] = "BEGIN:VEVENT"
+	eventData[1] = "UID:" + ev.generateUID()
+	eventData[2] = "DTSTAMP;VALUE=DATE:" + ev.eventDateStampFormat()
+	eventData[3] = "DTSTART;VALUE=DATE:" + ev.eventDate()
+	eventData[4] = "DTEND;VALUE=DATE:" + ev.eventDate()
+	eventData[5] = "SUMMARY:" + ev.eventSummary()
+	eventData[6] = "END:VEVENT"
+	return
 }
 
 // GetIcsFileLocation retrieves the ics file location
