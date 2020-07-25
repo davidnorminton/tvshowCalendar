@@ -18,7 +18,6 @@ func GetLatestEpisodes() ([]map[string]string, error) {
 		return nil, fmt.Errorf("Error getting ICS file!")
 	}
 
-	//createSortedList()
 	list, err := sliceEpisodes(cal)
 	if err != nil {
 		return nil, err

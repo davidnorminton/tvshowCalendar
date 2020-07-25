@@ -26,7 +26,6 @@ const (
 func AddTvShow(show string) (string, error) {
 
 	show = strings.ReplaceAll(show, " ", "-")
-
 	err := RunSaveFileChecks()
 	if err != nil {
 		return "", err
@@ -51,8 +50,7 @@ func RunSaveFileChecks() error {
 		return err
 	}
 
-	err = checkSaveFileExists(home)
-	if err != nil {
+	if err = checkSaveFileExists(home); err != nil {
 		return err
 	}
 	return nil
@@ -87,24 +85,23 @@ func appendShowToFile(show string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("we are here " + show)
-	home, err := utils.GetHomeDir()
+
+	savefile, err := GetSavelistFileLocation()
 	if err != nil {
 		return err
 	}
 
-	f, err := os.OpenFile(home+SaveDir+SaveFile, os.O_APPEND|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(savefile, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		return fmt.Errorf("Error: Problem opening save file! %v", err)
 	}
 
 	defer f.Close()
 
-	err = CheckIfShowInList(show)
-	if err != nil {
+	if err = CheckIfShowInList(show); err != nil {
 		return err
 	}
-	fmt.Println(show)
+
 	if _, err = f.WriteString(show + "\n"); err != nil {
 		return fmt.Errorf("There was an error writting to file! %v", err)
 	}
@@ -184,8 +181,8 @@ func RemoveShowFromFile(show string) (string, error) {
 }
 
 func appendListToFile(list []string) error {
-	home, _ := GetSavelistFileLocation()
-	f, err := os.OpenFile(home, os.O_TRUNC|os.O_WRONLY, 0777)
+	savefile, _ := GetSavelistFileLocation()
+	f, err := os.OpenFile(savefile, os.O_TRUNC|os.O_WRONLY, 0777)
 	if err != nil {
 		return fmt.Errorf("Error: Problem opening save file! %v", err)
 	}
@@ -207,13 +204,12 @@ func ListShows() {
 		fmt.Println(err)
 	}
 
-	home, err := utils.GetHomeDir()
-	if err != nil {
+	savefile, err := GetSavelistFileLocation()
+	if err == nil {
 		fmt.Println(err)
 	}
 
-	filename := home + SaveDir + SaveFile
-	file, _ := os.Open(filename)
+	file, _ := os.Open(savefile)
 
 	defer file.Close()
 

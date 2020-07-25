@@ -28,6 +28,7 @@ const addBtn = (elem) => {
 const clearMsg = () => {
     msg.classList.remove('error-msg');
     msg.classList.remove('good-msg');
+    msg.classList.remove('amber-msg');
     msg.innerHTML = '';
 };
 
@@ -81,14 +82,20 @@ const removeShow = (elem, show) => {
 };
 
 
+const addSpinner = () => {
+    msg.innerHTML = `<i class="icon-spinner spinner"></i>`
+    msg.classList.add("amber-msg")
+};
+
 // update show list
 const updateIcsFile = () => {
     clearMsg()
+    addSpinner()
     fetch("/updatefile", {mode: "cors"})
     .then(function(response) {
         return response.text()
     }).then(function(text){
-        console.log(text)
+        clearMsg();
         if(text === 'updated') {
             msg.innerHTML = "Your Calendar file has been updated";
             msg.classList.add('good-msg');

@@ -282,6 +282,25 @@ footer {
     font-weight: bold;
     text-decoration: none;
     font-size: 18px;}
+.amber-msg {
+    text-align: center;
+    background: orange;
+    font-weight: bold;
+    padding: 15px 0; 
+
+}
+.spinner {
+    display: inline-block;
+    animation:spin 1.3s linear infinite;
+
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+
 .good-msg {
     text-align: center;
     background: #218838;

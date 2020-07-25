@@ -80,6 +80,7 @@ func getShowDetails(show string) {
 }
 
 func updateCalendarWithShows() {
+	fmt.Println("Updating Calendar")
 	if err := calendar.UpdateCalendar(); err != nil {
 		fmt.Println(err)
 	} else {

@@ -24,14 +24,11 @@ import (
 )
 
 // IcsFile is the file name of our calendar file
-const (
-	IcsFile = "tvshows.ics"
-)
+const IcsFile = "tvshows.ics"
 
 // updateCalendar starts the routine to add show air dates to the calendar ics file,
 // the shows that are added are based on the shows that are listed in the save show list file
 func UpdateCalendar() error {
-	fmt.Println("Updating Calendar")
 	err := showlist.RunSaveFileChecks()
 	if err != nil {
 		return fmt.Errorf("Error in FIle Safety checks")
@@ -42,15 +39,23 @@ func UpdateCalendar() error {
 	return nil
 }
 
+func getSaveFileLoc() string {
+	home, _ := utils.GetHomeDir()
+	return home + showlist.SaveDir + showlist.SaveFile
+}
+
+type IcsEpisode struct {
+	Name    string
+	Season  string
+	Episode string
+	Date    string
+}
+
 // getShowsInList retrieves the save show list, then for each show get the latest episodes
 // REFACTOR
 func getShowsInList() error {
-	home, err := utils.GetHomeDir()
-	if err != nil {
-		return fmt.Errorf("Error: Problem opening file!")
-	}
 
-	filename := home + showlist.SaveDir + showlist.SaveFile
+	filename := getSaveFileLoc()
 	file, err := os.Open(filename)
 	if err != nil {
 		return fmt.Errorf("Problem opening %s", filename)
@@ -69,18 +74,17 @@ func getShowsInList() error {
 		var data episodate.Show
 		json.Unmarshal([]byte(html), &data)
 
-		for i := 0; i < len(data.TvShow.Episodes); i++ {
+		for _, val := range data.TvShow.Episodes {
 
-			// check if Air date id prior to current date
-			if CheckAirDate(data.TvShow.Episodes[i].AirDate) != nil {
+			if CheckAirDate(val.AirDate) != nil {
 				continue
 			}
 
-			episode := map[string]interface{}{
-				"name":    data.TvShow.Name,
-				"season":  strconv.Itoa(data.TvShow.Episodes[i].Season),
-				"episode": strconv.Itoa(data.TvShow.Episodes[i].Episode),
-				"date":    data.TvShow.Episodes[i].AirDate,
+			episode := IcsEpisode{
+				Name:    val.Name,
+				Season:  strconv.Itoa(val.Season),
+				Episode: strconv.Itoa(val.Episode),
+				Date:    val.AirDate,
 			}
 
 			calendarData = append(calendarData, formatEvent(episode))
@@ -88,8 +92,6 @@ func getShowsInList() error {
 		}
 	}
 	addEventToCalendar(calendarData)
-
-	// write calendarData to file ics
 
 	if err := scanner.Err(); err != nil {
 		return fmt.Errorf("Error writting to file")
@@ -114,16 +116,16 @@ func CheckAirDate(date string) error {
 }
 
 // formatEvent formats the data into a readable ics event format
-func formatEvent(show map[string]interface{}) (eventData [7]string) {
-	name := show["name"].(string)
-	season := show["season"].(string)
-	episode := show["episode"].(string)
+func formatEvent(show IcsEpisode) (eventData [7]string) {
+	name := show.Name
+	season := show.Season
+	episode := show.Episode
 	summary := eventSummary(name, season, episode)
 	eventData[0] = "BEGIN:VEVENT"
 	eventData[1] = "UID:" + generateUID()
-	eventData[2] = "DTSTAMP;VALUE=DATE:" + eventDateStampFormat(show["date"].(string))
-	eventData[3] = "DTSTART;VALUE=DATE:" + eventDate(show["date"].(string))
-	eventData[4] = "DTEND;VALUE=DATE:" + eventDate(show["date"].(string))
+	eventData[2] = "DTSTAMP;VALUE=DATE:" + eventDateStampFormat(show.Date)
+	eventData[3] = "DTSTART;VALUE=DATE:" + eventDate(show.Date)
+	eventData[4] = "DTEND;VALUE=DATE:" + eventDate(show.Date)
 	eventData[5] = "SUMMARY:" + summary
 	eventData[6] = "END:VEVENT"
 	return
@@ -138,7 +140,7 @@ func eventDate(date string) string {
 	return strings.Replace(startDate[0], "-", "", 2)
 }
 
-// eventDateStempFormat formats the date from the api to one which is suitable for the ics file
+// eventDateStempFormat formats the date from the REST api to one which is suitable for the ics file
 func eventDateStampFormat(date string) string {
 	replace := strings.NewReplacer(" ", "T", "-", "", ":", "")
 	return replace.Replace(date)
@@ -173,8 +175,6 @@ func addEventToCalendar(events [][7]string) {
 	_, _ = datawriter.WriteString(startOfIcsFile())
 	for i := 0; i < len(events); i++ {
 		for j := 0; j < len(events[i]); j++ {
-			// write to file
-			//fmt.Println(events[i][j])
 			_, _ = datawriter.WriteString(events[i][j] + "\n")
 		}
 	}
@@ -185,6 +185,11 @@ func addEventToCalendar(events [][7]string) {
 
 // startOfIcsFile is the first lines of text that are  required by the ICS file
 func startOfIcsFile() string {
-	return "BEGIN:VCALENDAR\n" + "CALSCALE:GREGORIAN\n" + "PRODID:-//Ximian//NONSGML Evolution Calendar//EN\n" +
-		"VERSION:2.0\n" + "X-EVOLUTION-DATA-REVISION:2020-06-29T20:39:28.749163Z(1))\n"
+	return "BEGIN:VCALENDAR\n" +
+		"CALSCALE:GREGORIAN\n" +
+		"PRODID:-//Ximian//NONSGML Evolution Calendar//EN\n" +
+		"VERSION:2.0\n" +
+		"X-EVOLUTION-DATA-REVISION:" +
+		"2020-06-29T20:39:28.749163Z(1))" +
+		"\n"
 }

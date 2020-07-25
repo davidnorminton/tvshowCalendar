@@ -69,19 +69,19 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	showData := []SearchData{}
 
-	for i := 0; i < len(search.TvShows); i++ {
+	for _, val := range search.TvShows {
 		isAdded := false
-		if err := showlist.CheckIfShowInList(search.TvShows[i].Permalink); err != nil {
+		if err := showlist.CheckIfShowInList(val.Permalink); err != nil {
 			isAdded = true
 		}
 		show := SearchData{
-			search.TvShows[i].Name,
-			search.TvShows[i].Permalink,
-			search.TvShows[i].StartDate,
-			search.TvShows[i].Status,
-			getStatusClass(search.TvShows[i].Status),
-			search.TvShows[i].Country,
-			search.TvShows[i].Network,
+			val.Name,
+			val.Permalink,
+			val.StartDate,
+			val.Status,
+			getStatusClass(val.Status),
+			val.Country,
+			val.Network,
 			isAdded,
 		}
 
