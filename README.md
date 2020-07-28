@@ -1,8 +1,8 @@
-#TV Show calendar
+# TV Show calendar
 
-_Tv Show Calendar_ creates an ics calendar file and populates it with the release dates of tv shows which are chosen by the user, via either a command line or web interface. 
+__Tv Show Calendar__ creates an ics calendar file and populates it with the release dates of tv shows which are chosen by the user, via either a command line or web interface. 
 
-  - The app is compatiable with calendar applications including(and tested on Ubuntu calendar and google calendar) 
+  - The app is compatiable with calendar applications including(and tested on Ubuntu gnome calendar and google calendar) 
   - Written in golang
 
 
@@ -10,6 +10,7 @@ _Tv Show Calendar_ creates an ics calendar file and populates it with the releas
 
 ```shell
 go get github.com/davidnorminton/tvshowCalendar
+cd tvshowCalendar
 go build main.go
 ```
 
@@ -56,3 +57,26 @@ Tv show calendar uses the following flags:
 ```shell
 ./tvshowCalendar -e
 ```
+
+## Web interface usage
+
+## How to use the ics file
+
+### Home page
+
+### Search
+
+### Show Details
+
+By default the on ubuntu the ics file is save at /home/USER/.local/share/tvshows.
+
+### gnome calendar
+
+### google calendar
+
+  - Open Google Calendar.
+  - In the top right, click Settings(gear icon) > Settings.
+  - Click Import & Export.
+  - Click Select the ics file from your computer and select the file you exported.
+  - Choose which calendar to add the imported events to. By default, events will be imported into your primary calendar.
+  - Click Import.
