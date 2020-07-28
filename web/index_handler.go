@@ -27,22 +27,22 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
 	showListFile, err := showlist.GetSavelistFileLocation()
 	showsInList, err := readLines(showListFile)
-
 	latest, err := calendar.GetLatestEpisodes()
-	formatLatestList(latest)
 	if err != nil {
 		fmt.Println("Error getting latest episodes!")
 	}
+
+	formatLatestList(latest)
 
 	data := IndexData{
 		ShowList: showsInList,
 		Latest:   latest,
 	}
-	err = t.Execute(w, data)
-	if err != nil {
-		panic(err)
+	if err = t.Execute(w, data); err != nil {
+		fmt.Fprintf(w, "Error building page")
 	}
 
 }

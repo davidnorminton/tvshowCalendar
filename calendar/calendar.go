@@ -72,6 +72,7 @@ func getShowsInList() error {
 		}
 		var data episodate.Show
 		json.Unmarshal([]byte(html), &data)
+		showname := data.TvShow.Name
 
 		for _, val := range data.TvShow.Episodes {
 
@@ -80,7 +81,7 @@ func getShowsInList() error {
 			}
 
 			episode := IcsEpisode{
-				Name:    val.Name,
+				Name:    showname,
 				Season:  strconv.Itoa(val.Season),
 				Episode: strconv.Itoa(val.Episode),
 				Date:    val.AirDate,
