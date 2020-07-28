@@ -63,13 +63,13 @@ Tv show calendar uses the following flags:
 ## How to use the ics file
 
 ### Home page
-[Home Page](https://github.com/davidnorminton/tvshowCalendar/img/home-page.png "Screenshot of the home page")
+![Home Page](https://github.com/davidnorminton/tvshowCalendar/img/home-page.png "Screenshot of the home page")
 
 ### Search
-[Search Page](https://github.com/davidnorminton/tvshowCalendar/img/search-page.png "Screenshot of a typical search page")
+![Search Page](https://github.com/davidnorminton/tvshowCalendar/img/search-page.png "Screenshot of a typical search page")
 
 ### Show Details
-[Show Details Page](https://github.com/davidnorminton/tvshowCalendar/img/details-page.png "Screenshot of a typical show details page")
+![Show Details Page](https://github.com/davidnorminton/tvshowCalendar/img/details-page.png "Screenshot of a typical show details page")
 
 By default the on ubuntu the ics file is save at /home/USER/.local/share/tvshows.
 
