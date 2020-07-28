@@ -64,7 +64,6 @@ Tv show calendar uses the following flags:
 
 ## Web interface usage
 
-## How to use the ics file
 
 ### Home page
 ![Home Page](https://raw.githubusercontent.com/davidnorminton/tvshowCalendar/master/img/home-page.png "Screenshot of the home page")
@@ -74,6 +73,10 @@ Tv show calendar uses the following flags:
 
 ### Show Details
 ![Show Details Page](https://raw.githubusercontent.com/davidnorminton/tvshowCalendar/master/img/details-page.png "Screenshot of a typical show details page")
+
+
+## How to use the ics file
+
 
 By default the on ubuntu the ics file is save at /home/USER/.local/share/tvshows.
 
