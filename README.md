@@ -1,9 +1,7 @@
 # TV Show calendar
 
-__Tv Show Calendar__ is a small app written in googles golang that can create an ics calendar file and add events of upcoming tv show release dates which are chosen prior by the user. The shows to track can be added either via the command line or a web interface. 
-In order to get the  tv show data the app uses the [episodate REST api](https://www.episodate.com/api).
-
-  - The app is compatiable with calendar applications including(and tested on Ubuntu gnome calendar and google calendar)
+__Tv Show Calendar__  creates an ics calendar file and add events of upcoming tv show release dates which are chosen prior by the user. The shows to track can be added either via the command line or a web interface. 
+In order to get the tv show data the app uses the [episodate REST api](https://www.episodate.com/api) to retrieve the tv show data. The app is compatiable with calendar applications including(and tested) on Ubuntu gnome calendar and google calendar.
 
 ## Installation
 
@@ -13,7 +11,7 @@ cd tvshowCalendar
 go build main.go
 ```
 
-If you wish to clone the repository from github, first create the directory structure $GOPATH /src/github.com/davidnorminton then run:
+If you wish to clone the repository from github, first create the directory structure $GOPATH/src/github.com/davidnorminton then run:
 ```shell
 git clone https://github.com/davidnorminton/tvshowCalendar
 ```
@@ -96,3 +94,8 @@ By default the on ubuntu the ics file is save at /home/USER/.local/share/tvshows
   - Click Select the ics file from your computer and select the file you exported.
   - Choose which calendar to add the imported events to. By default, events will be imported into your primary calendar.
   - Click Import.
+
+## Todo
+
+  - ability to save a files other than the default
+  - refactor the code to make it simple to change the tv show REST api
