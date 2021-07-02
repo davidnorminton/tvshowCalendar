@@ -8,7 +8,7 @@ In order to get the tv show data the app uses the [episodate REST api](https://w
 ```shell
 go get github.com/davidnorminton/tvshowCalendar
 cd tvshowCalendar
-go build main.go
+go build tvshowCalendar
 ```
 
 If you wish to clone the repository from github, first create the directory structure $GOPATH/src/github.com/davidnorminton then run:
